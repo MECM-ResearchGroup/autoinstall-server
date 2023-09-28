@@ -14,8 +14,6 @@ autoinstall:
     - name: firefox
     - name: gnome-3-38-2004
     - name: gtk-common-themes
-    - name: snap-store
-    - name: snapd-desktop-integration
 
   # User creation can occur in one of 3 ways:
   # 1. Create a user using this `identity` section.
@@ -34,16 +32,13 @@ autoinstall:
   keyboard:
     layout: br
 
+  timezone: geoip
+
   # Subiquity will, by default, configure a partition layout using LVM.
   # The 'direct' layout method shown here will produce a non-LVM result.
   storage:
     layout:
       name: direct
-
-  # The live-server ISO does not contain some of the required packages,
-  # such as ubuntu-desktop or the hwe kernel (or most of their depdendencies).
-  # The system being installed will need some sort of apt access.
-  # proxy: http://192.168.0.1:3142
 
   late-commands:
     # Enable the boot splash
@@ -63,13 +58,13 @@ autoinstall:
     # 'direct' storage layout.  These may yet be required if different
     # partitioning schemes are used.
     - >-
-      curtin in-target -- apt-get remove -y
+      curtin in-target -- apt-get purge -y
       btrfs-progs cryptsetup* lvm2 xfsprogs
 
     # Remove other packages present by default in Ubuntu Server but not
     # normally present in Ubuntu Desktop.
     - >-
-      curtin in-target -- apt-get remove -y
+      curtin in-target -- apt-get purge -y
       ubuntu-server ubuntu-server-minimal
       binutils byobu curl dmeventd finalrd gawk
       kpartx mdadm ncurses-term needrestart open-iscsi openssh-server
@@ -82,13 +77,16 @@ autoinstall:
 
     # Finally, remove things only installed as dependencies of other things
     # we have already removed.
-    - curtin in-target -- apt-get autoremove -y
+    - curtin in-target -- apt-get autopurge -y
 
     # A postinstall script may optionally be used for further install
     # customization. Deploy this postinstall.sh script on the webserver.
-    # - wget -O /target/postinstall.sh http://192.168.0.2/postinstall.sh
-    # - curtin in-target -- bash /postinstall.sh
-    # - rm /target/postinstall.sh
+    - wget -O /target/Abq6141_extrair_na_opt.tar.gz http://192.168.0.11/Abq6141_extrair_na_opt.tar.gz
+    - wget -O /target/abaqus.sh http://192.168.0.11/abaqus.sh
+    - wget -O /target/ubuntu.recipe http://192.168.0.11/ubuntu.recipe
+    - wget -O /target/postinstall.sh http://192.168.0.11/postinstall.sh
+    - curtin in-target -- bash /postinstall.sh
+    - rm /target/postinstall.sh
 
   # Additional cloud-init configuration affecting the target
   # system can be supplied underneath a user-data section inside of
