@@ -3,17 +3,18 @@ autoinstall:
   # version is an Autoinstall required field.
   version: 1
 
+  # Apt configuration, used both during the install and once booted into the target system.
+  # Use default mirror to avoid hash mismatches.
+  apt:
+    mirror-selection:
+      primary:
+        - arches: [i386, amd64]
+          uri: "http://archive.ubuntu.com/ubuntu"
+
   # This adds the default kubuntu-desktop packages to the system.
   # Any desired additional packages may also be listed here.
   packages:
     - kubuntu-desktop
-
-  # This adds the default snaps found on a 22.04 Ubuntu Desktop system.
-  # Any desired additional snaps may also be listed here.
-  snaps:
-    - name: firefox
-    - name: gnome-3-38-2004
-    - name: gtk-common-themes
 
   # User creation can occur in one of 3 ways:
   # 1. Create a user using this `identity` section.
@@ -22,17 +23,20 @@ autoinstall:
   # 3. Prompt for user configuration on first boot.  Remove this identity
   #    section and see the "Installation without a default user" section.
   identity:
-    realname: ''
-    username: lsc
+    username: lsc-admin
     # A password hash is needed. `mkpasswd --method=SHA-512` can help.
     # mkpasswd can be found in the package 'whois'
-    password: $y$j9T$./GJx9uSl85g9QPbHmrIb0$R33nx5Q9y3E9PTDnPlHTFcrHxwGVnFolbmWQCv9FSbC
-    hostname: kubuntu-desktop
+    password: '$y$j9T$5uH4HO3TTMsEuNhyeznAY1$5vupaiHFu0GUDIIDfq6bv/farQ9smE5zLEyvlkmSM5/'
+    hostname: tucano.lsc.dema.ufscar.br
 
+  # Set the keyboard layout. The mapping’s keys correspond to settings in
+  # the /etc/default/keyboard configuration file.
   keyboard:
     layout: br
 
-  timezone: geoip
+  # The timezone to configure on the system. The special value “geoip”
+  # can be used to query the timezone automatically over the network.
+  timezone: America/Sao_Paulo
 
   # Subiquity will, by default, configure a partition layout using LVM.
   # The 'direct' layout method shown here will produce a non-LVM result.
@@ -51,8 +55,9 @@ autoinstall:
     # Let NetworkManager handle network
     - rm /target/etc/netplan/00-installer-config*yaml
     - >-
-      printf "network:\n  version: 2\n  renderer: NetworkManager"
+      printf "network:\n  version: 2\n  renderer: NetworkManager\n"
       > /target/etc/netplan/01-network-manager-all.yaml
+    - curtin in-target -- systemctl disable systemd-networkd-wait-online.service
 
     # Remove default filesystem and related tools not used with the suggested
     # 'direct' storage layout.  These may yet be required if different
@@ -67,10 +72,10 @@ autoinstall:
       curtin in-target -- apt-get purge -y
       ubuntu-server ubuntu-server-minimal
       binutils byobu curl dmeventd finalrd gawk
-      kpartx mdadm ncurses-term needrestart open-iscsi openssh-server
-      sg3-utils ssh-import-id sssd thin-provisioning-tools vim tmux
+      kpartx mdadm ncurses-term needrestart open-iscsi
+      sg3-utils ssh-import-id thin-provisioning-tools tmux
       sosreport screen open-vm-tools motd-news-config lxd-agent-loader
-      landscape-common htop git fonts-ubuntu-console ethtool
+      landscape-common fonts-ubuntu-console ethtool
 
     # Keep cloud-init, as it performs some of the installation on first boot.
     - curtin in-target -- apt-get install -y cloud-init
@@ -81,15 +86,10 @@ autoinstall:
 
     # A postinstall script may optionally be used for further install
     # customization. Deploy this postinstall.sh script on the webserver.
-    - wget -O /target/Abq6141_extrair_na_opt.tar.gz http://192.168.0.11/Abq6141_extrair_na_opt.tar.gz
-    - wget -O /target/abaqus.sh http://192.168.0.11/abaqus.sh
-    - wget -O /target/ubuntu.recipe http://192.168.0.11/ubuntu.recipe
-    - wget -O /target/postinstall.sh http://192.168.0.11/postinstall.sh
-    - curtin in-target -- bash /postinstall.sh
-    - rm /target/postinstall.sh
-
-  # Additional cloud-init configuration affecting the target
-  # system can be supplied underneath a user-data section inside of
-  # autoinstall.
-  # user-data:
-  #   …
+    - wget -O /target/postinstall.sh http://192.168.0.150/postinstall.sh
+    - wget -O /target/abaqus.sh http://192.168.0.150/abaqus.sh
+    - wget -O /target/ubuntu.recipe http://192.168.0.150/ubuntu.recipe
+    - wget -O /target/Abq6141_extrair_na_opt.tar.gz http://192.168.0.150/Abq6141_extrair_na_opt.tar.gz
+    - wget -O /target/network.lic http://192.168.0.150/network.lic
+    - wget -O /target/installer_input.txt http://192.168.0.150/installer_input.txt
+    - wget -O /target/MATLAB_R2019a_Linux_UFSCar.zip http://192.168.0.150/MATLAB_R2019a_Linux_UFSCar.zip
