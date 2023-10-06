@@ -54,7 +54,7 @@ echo -e "\n${GREEN}Abaqus container built successfully${LIGHTGREY}\n"
 echo -e "\n${BLUE}Setting bash aliases for Abaqus${LIGHTGREY}\n"
 echo "alias abaqus='sh /opt/abaqus.sh'" >> /etc/bash.bashrc
 echo "alias abacae='sh /opt/abaqus.sh cae -mesa'" >> /etc/bash.bashrc
-echo "alias abaqus_server='ssh abaqus@abqserver.dema.ufscar.br -p 2419'" >> /etc/bash.bashrc
+echo "alias abaqus_server='ssh abaqus@abqserver.dema.ufscar.br -p 24199'" >> /etc/bash.bashrc
 
 #### Anaconda ####
 export VERSION=2023.07-2
