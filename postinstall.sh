@@ -9,9 +9,9 @@ LIGHTGREY='\033[0;37m'
 echo -e "\n${RED}This script will install software used by the MECM project. It will need SUPERUSER access to execute some commands. Always review the script before executing since it can cause nasty damage otherwise.${LIGHTGREY}\n"
 
 # Reset network interface to get dns.
-ip link set enp3s0 down
+ip link set `ip --brief link | awk '$1 !~ "lo|vir|wl" { print $1}'` down
 sleep 10
-ip link set enp3s0 up
+ip link set `ip --brief link | awk '$1 !~ "lo|vir|wl" { print $1}'` up
 sleep 10
 apt update  # To get the latest package lists
 apt upgrade -y
@@ -73,7 +73,7 @@ unzip -d /MATLAB /MATLAB_R2019a_Linux_UFSCar.zip
 rm /MATLAB_R2019a_Linux_UFSCar.zip
 chmod -R u+x /MATLAB
 /MATLAB/install -inputFile /installer_input.txt
-echo "alias matlab='/opt/MATLAB/R2019a/bin/matlab" >> /etc/bash.bashrc
+echo "alias matlab='/opt/MATLAB/R2019a/bin/matlab'" >> /etc/bash.bashrc
 echo -e "\n${GREEN}MATLAB installed successfully!${LIGHTGREY}\n"
 rm -r /{MATLAB,installer_input.txt,network.lic}
 
