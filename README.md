@@ -37,6 +37,8 @@ Finally, `reboot` one last time.
 After running the setup script, execute `./test_autoinstall.yaml`. It should spin up a kvm and run the autoinstall. Keep in mind it still does not test the netboot functionality, but merely the install process itself. Ensure you have at least 60 Gb of storage available for the vm image.
 
 ## References
-https://ubuntu.com/server/docs/install/netboot-amd64
-https://ubuntu.com/server/docs/install/autoinstall-reference
-https://github.com/canonical/autoinstall-desktop
+[https://ubuntu.com/server/docs/install/netboot-amd64](https://ubuntu.com/server/docs/install/netboot-amd64)
+
+[https://ubuntu.com/server/docs/install/autoinstall-reference](https://ubuntu.com/server/docs/install/autoinstall-reference)
+
+[https://github.com/canonical/autoinstall-desktop](https://github.com/canonical/autoinstall-desktop)
