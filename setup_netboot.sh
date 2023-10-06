@@ -11,17 +11,17 @@ sudo apt install -y dnsmasq lighttpd wget
 
 # download required files and verify iso integrity
 apt download grub-common grub-efi-amd64-signed shim-signed
-wget --quiet --show-progress --timestamping https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/jammy-live-server-amd64.iso \
-                                            https://cdimage.ubuntu.com/ubuntu-server/jammy/daily-live/current/SHA256SUMS
+wget --quiet --show-progress --timestamping https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-live-server-amd64.iso \
+                                            https://releases.ubuntu.com/22.04.3/SHA256SUMS
 sha256sum --check --ignore-missing SHA256SUMS
 
 # copy files to the right places
 sudo cp pxe.conf /etc/dnsmasq.d
 sudo cp grub.cfg /srv/tftp/grub
-sudo cp autoinstall.yaml jammy-live-server-amd64.iso postinstall.sh /var/www/html
+sudo cp autoinstall.yaml ubuntu-22.04.3-live-server-amd64.iso postinstall.sh /var/www/html
 
 # mount iso and copy the kernel and initrd
-sudo mount jammy-live-server-amd64.iso /mnt
+sudo mount ubuntu-22.04.3-live-server-amd64.iso /mnt
 sudo cp /mnt/casper/{vmlinuz,initrd} /srv/tftp/
 sudo umount -R /mnt
 
@@ -35,4 +35,4 @@ sudo systemctl enable dnsmasq.service lighttpd.service
 sudo systemctl start dnsmasq.service lighttpd.service
 
 # clean up
-rm shim-signed*deb grub-efi-amd64-signed*deb grub-common*deb jammy-live-server-amd64.iso SHA256SUMS
+rm shim-signed*deb grub-efi-amd64-signed*deb grub-common*deb ubuntu-22.04.3-live-server-amd64.iso SHA256SUMS
