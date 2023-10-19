@@ -26,7 +26,7 @@ autoinstall:
     username: lsc-admin
     # A password hash is needed. `mkpasswd --method=SHA-512` can help.
     # mkpasswd can be found in the package 'whois'
-    password: '$y$j9T$5uH4HO3TTMsEuNhyeznAY1$5vupaiHFu0GUDIIDfq6bv/farQ9smE5zLEyvlkmSM5/'
+    password: '$y$j9T$mMWQGmYi32uWAdQvsJC16/$qw9vPLGwuvHwsQLpeTWCryl7wEilo5pVt.Pv272mTI4'
     hostname: tucano.lsc.dema.ufscar.br
 
   # Set the keyboard layout. The mapping’s keys correspond to settings in
