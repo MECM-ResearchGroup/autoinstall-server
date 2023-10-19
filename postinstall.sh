@@ -35,17 +35,7 @@ mv /ubuntu.recipe /opt
 echo -e "\n${GREEN}Abaqus installed successfully!${LIGHTGREY}\n"
 rm /Abq6141_extrair_na_opt.tar.gz
 
-#### Singularity ####
-export VERSION=4.0.0
-echo -e "\n${BLUE}Downloading Singularity ${VERSION}${LIGHTGREY}\n"
-wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce_${VERSION}-jammy_amd64.deb
-wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/sha256sums
-echo -e "\n${BLUE}Verifying file integrity${LIGHTGREY}\n"
-sha256sum --check --ignore-missing sha256sums
-echo -e "\n${BLUE}Installing Singularity${LIGHTGREY}\n"
-apt install -y --fix-broken ./singularity-ce_${VERSION}-jammy_amd64.deb
-echo -e "\n${GREEN}Singularity installed successfully!${LIGHTGREY}\n"
-rm ./singularity-ce_${VERSION}-jammy_amd64.deb ./sha256sums
+apt install -y singularity-ce
 
 echo -e "\n${BLUE}Building Abaqus container${LIGHTGREY}\n"
 singularity build --sandbox /opt/ubuntu_abq.sif /opt/ubuntu.recipe
@@ -57,7 +47,7 @@ echo "alias abacae='sh /opt/abaqus.sh cae -mesa'" >> /etc/bash.bashrc
 echo "alias abaqus_server='ssh abaqus@abqserver.dema.ufscar.br -p 24199'" >> /etc/bash.bashrc
 
 #### Anaconda ####
-export VERSION=2023.07-2
+export VERSION=2023.09-0
 echo -e "\n${BLUE}Downloading Anaconda ${VERSION}${LIGHTGREY}\n"
 wget --quiet --show-progress --timestamping https://repo.anaconda.com/archive/Anaconda3-${VERSION}-Linux-x86_64.sh
 echo -e "\n${BLUE}Installing Anaconda${LIGHTGREY}\n"
