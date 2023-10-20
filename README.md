@@ -26,10 +26,10 @@ Wait for the install to finish. The machine will reboot and hopefully start Kubu
 
 After the boot finishes, **reboot again** to apply cloud-init specific configurations, and then open a terminal and give the postinstall script execution permission:
 
-`sudo chmod +x /postinstall.sh`
+`sudo chmod +x /postinstall/postinstall.sh`
 
 Then, run the script:
-`sudo /postinstall.sh`
+`sudo /postinstall/postinstall.sh`
 
 Finally, `reboot` one last time.
 

@@ -5,6 +5,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 LIGHTGREY='\033[0;37m'
+POSTINSTALL_DIR='/postinstall'
 
 echo -e "\n${RED}This script will install software used by the MECM project. It will need SUPERUSER access to execute some commands. Always review the script before executing since it can cause nasty damage otherwise.${LIGHTGREY}\n"
 
@@ -30,10 +31,10 @@ echo -e "\n${BLUE}Installing Abaqus${LIGHTGREY}"
 mkdir --parents /opt/abaqus
 tar --checkpoint=10000 --checkpoint-action=. --directory /opt/abaqus -xf /Abq6141_extrair_na_opt.tar.gz
 chmod +x /abaqus.sh
-mv /abaqus.sh /opt
-mv /ubuntu.recipe /opt
+mv ${POSTINSTALL_DIR}/abaqus.sh /opt
+mv ${POSTINSTALL_DIR}/ubuntu.recipe /opt
 echo -e "\n${GREEN}Abaqus installed successfully!${LIGHTGREY}\n"
-rm /Abq6141_extrair_na_opt.tar.gz
+rm ${POSTINSTALL_DIR}/Abq6141_extrair_na_opt.tar.gz
 
 apt install -y singularity-ce
 
@@ -59,13 +60,13 @@ rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
 
 #### MATLAB ####
 echo -e "\n${BLUE}Installing MATLAB${LIGHTGREY}\n"
-unzip -d /MATLAB /MATLAB_R2019a_Linux_UFSCar.zip
-rm /MATLAB_R2019a_Linux_UFSCar.zip
+unzip -d /MATLAB ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
+rm ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
 chmod -R u+x /MATLAB
-/MATLAB/install -inputFile /installer_input.txt
+/MATLAB/install -inputFile ${POSTINSTALL_DIR}/installer_input.txt
 echo "alias matlab='/opt/MATLAB/R2019a/bin/matlab'" >> /etc/bash.bashrc
 echo -e "\n${GREEN}MATLAB installed successfully!${LIGHTGREY}\n"
-rm -r /{MATLAB,installer_input.txt,network.lic}
+rm -r ${POSTINSTALL_DIR}/{MATLAB,installer_input.txt,network.lic}
 
 #### Setup AD and nfs ####
 echo -e "\n${BLUE}Now setting up Active Directory and NFS${LIGHTGREY}\n"
@@ -85,4 +86,4 @@ systemctl enable rpcbind nscd ypbind ypserv.service yppasswdd.service ypxfrd.ser
 echo -e "\n${GREEN}AD and NFS set up successfully!${LIGHTGREY}\n"
 
 echo -e "\n${GREEN}The script finished executing with no errors. Reboot to apply some remaining configurations.${LIGHTGREY}\n"
-rm /postinstall.sh
+rm -r ${POSTINSTALL_DIR}

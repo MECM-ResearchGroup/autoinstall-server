@@ -26,7 +26,7 @@ autoinstall:
     username: lsc-admin
     # A password hash is needed. `mkpasswd --method=SHA-512` can help.
     # mkpasswd can be found in the package 'whois'
-    password: '$y$j9T$mMWQGmYi32uWAdQvsJC16/$qw9vPLGwuvHwsQLpeTWCryl7wEilo5pVt.Pv272mTI4'
+    password: '$y$j9T$trg1Ty/3mV3xqlTaiK1D.1$mdfd8RiigBOP6whZ/L.qaqBHiWSTvN12B2ZvnMlF4M2'
     hostname: tucano.lsc.dema.ufscar.br
 
   # Set the keyboard layout. The mapping’s keys correspond to settings in
@@ -86,10 +86,11 @@ autoinstall:
 
     # A postinstall script may optionally be used for further install
     # customization. Deploy this postinstall.sh script on the webserver.
-    - wget -O /target/postinstall.sh http://192.168.0.150/postinstall.sh
-    - wget -O /target/abaqus.sh http://192.168.0.150/abaqus.sh
-    - wget -O /target/ubuntu.recipe http://192.168.0.150/ubuntu.recipe
-    - wget -O /target/Abq6141_extrair_na_opt.tar.gz http://192.168.0.150/Abq6141_extrair_na_opt.tar.gz
-    - wget -O /target/network.lic http://192.168.0.150/network.lic
-    - wget -O /target/installer_input.txt http://192.168.0.150/installer_input.txt
-    - wget -O /target/MATLAB_R2019a_Linux_UFSCar.zip http://192.168.0.150/MATLAB_R2019a_Linux_UFSCar.zip
+    - curtin in-target -- mkdir /postinstall
+    - wget -O /target/postinstall/postinstall.sh http://192.168.0.4/postinstall.sh
+    - wget -O /target/postinstall/abaqus.sh http://192.168.0.4/abaqus.sh
+    - wget -O /target/postinstall/ubuntu.recipe http://192.168.0.4/ubuntu.recipe
+    - wget -O /target/postinstall/Abq6141_extrair_na_opt.tar.gz http://192.168.0.4/Abq6141_extrair_na_opt.tar.gz
+    - wget -O /target/postinstall/network.lic http://192.168.0.4/network.lic
+    - wget -O /target/postinstall/installer_input.txt http://192.168.0.4/installer_input.txt
+    - wget -O /target/postinstall/MATLAB_R2019a_Linux_UFSCar.zip http://192.168.0.4/MATLAB_R2019a_Linux_UFSCar.zip
