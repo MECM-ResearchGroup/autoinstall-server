@@ -29,8 +29,8 @@ localectl set-locale LC_NUMERIC=pt_BR.UTF-8 \
 #### Abaqus ####
 echo -e "\n${BLUE}Installing Abaqus${LIGHTGREY}"
 mkdir --parents /opt/abaqus
-tar --checkpoint=10000 --checkpoint-action=. --directory /opt/abaqus -xf /Abq6141_extrair_na_opt.tar.gz
-chmod +x /abaqus.sh
+tar --checkpoint=10000 --checkpoint-action=. --directory /opt/abaqus -xf ${POSTINSTALL_DIR}/Abq6141_extrair_na_opt.tar.gz
+chmod +x ${POSTINSTALL_DIR}/abaqus.sh
 mv ${POSTINSTALL_DIR}/abaqus.sh /opt
 mv ${POSTINSTALL_DIR}/ubuntu.recipe /opt
 echo -e "\n${GREEN}Abaqus installed successfully!${LIGHTGREY}\n"
@@ -60,10 +60,10 @@ rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
 
 #### MATLAB ####
 echo -e "\n${BLUE}Installing MATLAB${LIGHTGREY}\n"
-unzip -d /MATLAB ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
+unzip -d ${POSTINSTALL_DIR}/MATLAB ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
 rm ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
-chmod -R u+x /MATLAB
-/MATLAB/install -inputFile ${POSTINSTALL_DIR}/installer_input.txt
+chmod -R u+x ${POSTINSTALL_DIR}/MATLAB
+${POSTINSTALL_DIR}/MATLAB/install -inputFile ${POSTINSTALL_DIR}/installer_input.txt
 echo "alias matlab='/opt/MATLAB/R2019a/bin/matlab'" >> /etc/bash.bashrc
 echo -e "\n${GREEN}MATLAB installed successfully!${LIGHTGREY}\n"
 rm -r ${POSTINSTALL_DIR}/{MATLAB,installer_input.txt,network.lic}
