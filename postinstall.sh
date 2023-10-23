@@ -38,8 +38,8 @@ rm ${POSTINSTALL_DIR}/Abq6141_extrair_na_opt.tar.gz
 
 #### Singularity ####
 export VERSION=4.0.0
-wget --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce_${VERSION}-jammy_amd64.deb
-wget --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/sha256sums
+wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce_${VERSION}-jammy_amd64.deb
+wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/sha256sums
 sha256sum --check --ignore-missing sha256sums
 sudo apt install -y --fix-broken ./singularity-ce_${VERSION}-jammy_amd64.deb
 rm ./singularity-ce_${VERSION}-jammy_amd64.deb ./sha256sums
