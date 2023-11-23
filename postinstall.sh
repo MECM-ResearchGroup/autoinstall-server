@@ -16,9 +16,12 @@ ip link set `ip --brief link | awk '$1 !~ "lo|vir|wl" { print $1}'` up
 sleep 10
 apt update  # To get the latest package lists
 apt upgrade -y
-apt install -y build-essential freecad gimp inkscape # commonly used packages
+apt install -y build-essential freecad gimp inkscape whois dcraw spyder remmina # commonly used packages
 snap refresh
 snap install firefox
+
+# CHANGE! set temp user while nfs does not work
+useradd -m -p '$y$j9T$P.TaB5iGpkoLlJcUABmHa1$6x/4ZiNbUwACEVHpirDS/7zs9M/lzHApr7ut/JmLiO9' -s /bin/bash lsc
 
 # Set custom locale definitions
 localectl set-locale LC_NUMERIC=pt_BR.UTF-8 \
@@ -26,23 +29,24 @@ localectl set-locale LC_NUMERIC=pt_BR.UTF-8 \
       LC_NAME=pt_BR.UTF-8 LC_ADDRESS=pt_BR.UTF-8 LC_TELEPHONE=pt_BR.UTF-8 \
       LC_MEASUREMENT=pt_BR.UTF-8 LC_IDENTIFICATION=pt_BR.UTF-8
 
+# Extract program files
+echo -e "\n${BLUE}Extracting program files...${LIGHTGREY}"
+tar --checkpoint=10000 --checkpoint-action=. --directory=/ -xf /postinstall.tar.zst
+rm /postinstall.tar.zst
+
 #### Abaqus ####
 echo -e "\n${BLUE}Installing Abaqus${LIGHTGREY}"
-mkdir --parents /opt/abaqus
-tar --checkpoint=10000 --checkpoint-action=. --directory /opt/abaqus -xf ${POSTINSTALL_DIR}/Abq6141_extrair_na_opt.tar.gz
+mv ${POSTINSTALL_DIR}/abaqus /opt/abaqus
 chmod +x ${POSTINSTALL_DIR}/abaqus.sh
 mv ${POSTINSTALL_DIR}/abaqus.sh /opt
 mv ${POSTINSTALL_DIR}/ubuntu.recipe /opt
 echo -e "\n${GREEN}Abaqus installed successfully!${LIGHTGREY}\n"
-rm ${POSTINSTALL_DIR}/Abq6141_extrair_na_opt.tar.gz
 
 #### Singularity ####
-export VERSION=4.0.0
+export VERSION=4.0.2
 wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce_${VERSION}-jammy_amd64.deb
-wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/sha256sums
-sha256sum --check --ignore-missing sha256sums
 sudo apt install -y --fix-broken ./singularity-ce_${VERSION}-jammy_amd64.deb
-rm ./singularity-ce_${VERSION}-jammy_amd64.deb ./sha256sums
+rm ./singularity-ce_${VERSION}-jammy_amd64.deb
 
 echo -e "\n${BLUE}Building Abaqus container${LIGHTGREY}\n"
 singularity build --sandbox /opt/ubuntu_abq.sif /opt/ubuntu.recipe
@@ -66,8 +70,6 @@ rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
 
 #### MATLAB ####
 echo -e "\n${BLUE}Installing MATLAB${LIGHTGREY}\n"
-unzip -d ${POSTINSTALL_DIR}/MATLAB ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
-rm ${POSTINSTALL_DIR}/MATLAB_R2019a_Linux_UFSCar.zip
 chmod -R u+x ${POSTINSTALL_DIR}/MATLAB
 ${POSTINSTALL_DIR}/MATLAB/install -inputFile ${POSTINSTALL_DIR}/installer_input.txt
 echo "alias matlab='/opt/MATLAB/R2019a/bin/matlab'" >> /etc/bash.bashrc
@@ -75,21 +77,21 @@ echo -e "\n${GREEN}MATLAB installed successfully!${LIGHTGREY}\n"
 rm -r ${POSTINSTALL_DIR}/{MATLAB,installer_input.txt,network.lic}
 
 #### Setup AD and nfs ####
-echo -e "\n${BLUE}Now setting up Active Directory and NFS${LIGHTGREY}\n"
-apt install -y realmd adcli samba-common-bin libnss-sss libpam-sss sssd sssd-tools oddjob oddjob-mkhomedir packagekit nis nfs-common
-realm discover lsc.dema.ufscar.br
-realm join lsc.dema.ufscar.br
-echo "crio:/home	/home	nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" >> /etc/fstab
-echo "domain lsc.dema.ufscar.br server crio.lsc.dema.ufscar.br" >> /etc/yp.conf
-echo "lsc.dema.ufscar.br" > /etc/defaultdomain
-echo "session optional        pam_mkhomedir.so skel=/etc/skel umask=077" >> /etc/pam.d/common-session
-sed -i 's/# passwd:         files systemd/passwd:         files systemd nis sss/' /etc/nsswitch.conf
-sed -i 's/# group:          files systemd/group:          files systemd nis sss/' /etc/nsswitch.conf
-sed -i 's/# shadow:         files systemd/shadow:         files nis sss/' /etc/nsswitch.conf
-sed -i 's/# hosts:          files dns/hosts:          files dns nis/' /etc/nsswitch.conf
-systemctl restart rpcbind nscd ypbind
-systemctl enable rpcbind nscd ypbind ypserv.service yppasswdd.service ypxfrd.service
-echo -e "\n${GREEN}AD and NFS set up successfully!${LIGHTGREY}\n"
+#echo -e "\n${BLUE}Now setting up Active Directory and NFS${LIGHTGREY}\n"
+#apt install -y realmd adcli samba-common-bin libnss-sss libpam-sss sssd sssd-tools oddjob oddjob-mkhomedir packagekit nis nfs-common
+#realm discover lsc.dema.ufscar.br
+#realm join lsc.dema.ufscar.br
+#echo "crio:/home	/home	nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" >> /etc/fstab
+#echo "domain lsc.dema.ufscar.br server crio.lsc.dema.ufscar.br" >> /etc/yp.conf
+#echo "lsc.dema.ufscar.br" > /etc/defaultdomain
+#echo "session optional        pam_mkhomedir.so skel=/etc/skel umask=077" >> /etc/pam.d/common-session
+#sed -i 's/# passwd:         files systemd/passwd:         files systemd nis sss/' /etc/nsswitch.conf
+#sed -i 's/# group:          files systemd/group:          files systemd nis sss/' /etc/nsswitch.conf
+#sed -i 's/# shadow:         files systemd/shadow:         files nis sss/' /etc/nsswitch.conf
+#sed -i 's/# hosts:          files dns/hosts:          files dns nis/' /etc/nsswitch.conf
+#systemctl restart rpcbind nscd ypbind
+#systemctl enable rpcbind nscd ypbind ypserv.service yppasswdd.service ypxfrd.service
+#echo -e "\n${GREEN}AD and NFS set up successfully!${LIGHTGREY}\n"
 
 echo -e "\n${GREEN}The script finished executing with no errors. Reboot to apply some remaining configurations.${LIGHTGREY}\n"
-rm -r ${POSTINSTALL_DIR}
+rm -r ${POSTINSTALL_DIR} /postinstall.sh
