@@ -67,11 +67,17 @@ rm -r ${POSTINSTALL_DIR}/{MATLAB,installer_input.txt,network.lic}
 
 #### Anaconda ####
 export VERSION=2023.09-0
+CONDA_PATH=/opt/anaconda3
 echo -e "\n${BLUE}Downloading Anaconda ${VERSION}${LIGHTGREY}\n"
 wget --quiet --show-progress --timestamping https://repo.anaconda.com/archive/Anaconda3-${VERSION}-Linux-x86_64.sh
 echo -e "\n${BLUE}Installing Anaconda${LIGHTGREY}\n"
-bash ./Anaconda3-${VERSION}-Linux-x86_64.sh -bp /opt/anaconda3
-eval "$(/opt/anaconda3/bin/conda shell.bash hook)"
+bash ./Anaconda3-${VERSION}-Linux-x86_64.sh -bp ${CONDA_PATH}
+groupadd conda
+chgrp -R conda ${CONDA_PATH}
+chmod 770 -R ${CONDA_PATH}
+useradd lsc conda
+useradd lsc-admin conda
+eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
 conda init
 echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
 rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
