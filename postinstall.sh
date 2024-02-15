@@ -21,6 +21,7 @@ snap refresh
 snap install firefox
 
 # CHANGE! set temp user while nfs does not work
+
 useradd -m -p '$y$j9T$P.TaB5iGpkoLlJcUABmHa1$6x/4ZiNbUwACEVHpirDS/7zs9M/lzHApr7ut/JmLiO9' -s /bin/bash lsc
 
 # Set custom locale definitions
@@ -78,7 +79,7 @@ chmod 770 -R ${CONDA_PATH}
 useradd lsc conda
 useradd lsc-admin conda
 eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
-conda init
+conda init --system
 echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
 rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
 
