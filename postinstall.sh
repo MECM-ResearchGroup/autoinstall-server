@@ -16,7 +16,7 @@ ip link set `ip --brief link | awk '$1 !~ "lo|vir|wl" { print $1}'` up
 sleep 10
 apt update  # To get the latest package lists
 apt upgrade -y
-apt install -y build-essential freecad gimp inkscape whois dcraw spyder remmina # commonly used packages
+apt install -y build-essential dcraw freecad gimp inkscape libraw-bin remmina whois # commonly used packages
 snap refresh
 snap install firefox
 
@@ -43,7 +43,7 @@ mv ${POSTINSTALL_DIR}/ubuntu.recipe /opt
 echo -e "\n${GREEN}Abaqus installed successfully!${LIGHTGREY}\n"
 
 #### Singularity ####
-export VERSION=4.0.2
+export VERSION=4.1.1
 wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce_${VERSION}-jammy_amd64.deb
 sudo apt install -y --fix-broken ./singularity-ce_${VERSION}-jammy_amd64.deb
 rm ./singularity-ce_${VERSION}-jammy_amd64.deb
@@ -57,17 +57,6 @@ echo "alias abaqus='sh /opt/abaqus.sh'" >> /etc/bash.bashrc
 echo "alias abacae='sh /opt/abaqus.sh cae -mesa'" >> /etc/bash.bashrc
 echo "alias abaqus_server='ssh abaqus@abqserver.dema.ufscar.br -p 24199'" >> /etc/bash.bashrc
 
-#### Anaconda ####
-export VERSION=2023.09-0
-echo -e "\n${BLUE}Downloading Anaconda ${VERSION}${LIGHTGREY}\n"
-wget --quiet --show-progress --timestamping https://repo.anaconda.com/archive/Anaconda3-${VERSION}-Linux-x86_64.sh
-echo -e "\n${BLUE}Installing Anaconda${LIGHTGREY}\n"
-bash ./Anaconda3-${VERSION}-Linux-x86_64.sh -bp /opt/anaconda3
-eval "$(/opt/anaconda3/bin/conda shell.bash hook)"
-conda config --set auto_activate_base false
-echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
-rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
-
 #### MATLAB ####
 echo -e "\n${BLUE}Installing MATLAB${LIGHTGREY}\n"
 chmod -R u+x ${POSTINSTALL_DIR}/MATLAB
@@ -75,6 +64,17 @@ ${POSTINSTALL_DIR}/MATLAB/install -inputFile ${POSTINSTALL_DIR}/installer_input.
 echo "alias matlab='/opt/MATLAB/R2019a/bin/matlab'" >> /etc/bash.bashrc
 echo -e "\n${GREEN}MATLAB installed successfully!${LIGHTGREY}\n"
 rm -r ${POSTINSTALL_DIR}/{MATLAB,installer_input.txt,network.lic}
+
+#### Anaconda ####
+export VERSION=2023.09-0
+echo -e "\n${BLUE}Downloading Anaconda ${VERSION}${LIGHTGREY}\n"
+wget --quiet --show-progress --timestamping https://repo.anaconda.com/archive/Anaconda3-${VERSION}-Linux-x86_64.sh
+echo -e "\n${BLUE}Installing Anaconda${LIGHTGREY}\n"
+bash ./Anaconda3-${VERSION}-Linux-x86_64.sh -bp /opt/anaconda3
+eval "$(/opt/anaconda3/bin/conda shell.bash hook)"
+conda init
+echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
+rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
 
 #### Setup AD and nfs ####
 #echo -e "\n${BLUE}Now setting up Active Directory and NFS${LIGHTGREY}\n"
