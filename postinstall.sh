@@ -76,8 +76,8 @@ bash ./Anaconda3-${VERSION}-Linux-x86_64.sh -bp ${CONDA_PATH}
 groupadd conda
 chgrp -R conda ${CONDA_PATH}
 chmod 770 -R ${CONDA_PATH}
-useradd lsc conda
-useradd lsc-admin conda
+usermod -aG conda lsc
+usermod -aG conda lsc-admin
 eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
 conda init --system
 echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
