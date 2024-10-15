@@ -44,7 +44,7 @@ mv ${POSTINSTALL_DIR}/ubuntu.recipe /opt
 echo -e "\n${GREEN}Abaqus installed successfully!${LIGHTGREY}\n"
 
 #### Singularity ####
-export VERSION=4.1.1
+export VERSION=4.2.1
 wget --quiet --show-progress --timestamping https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-ce_${VERSION}-jammy_amd64.deb
 sudo apt install -y --fix-broken ./singularity-ce_${VERSION}-jammy_amd64.deb
 rm ./singularity-ce_${VERSION}-jammy_amd64.deb
@@ -67,7 +67,7 @@ echo -e "\n${GREEN}MATLAB installed successfully!${LIGHTGREY}\n"
 rm -r ${POSTINSTALL_DIR}/{MATLAB,installer_input.txt,network.lic}
 
 #### Anaconda ####
-export VERSION=2023.09-0
+export VERSION=2024.06-1
 CONDA_PATH=/opt/anaconda3
 echo -e "\n${BLUE}Downloading Anaconda ${VERSION}${LIGHTGREY}\n"
 wget --quiet --show-progress --timestamping https://repo.anaconda.com/archive/Anaconda3-${VERSION}-Linux-x86_64.sh
