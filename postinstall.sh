@@ -16,9 +16,9 @@ ip link set `ip --brief link | awk '$1 !~ "lo|vir|wl" { print $1}'` up
 sleep 10
 apt update  # To get the latest package lists
 apt upgrade -y
-apt install -y build-essential dcraw freecad gimp inkscape libraw-bin python-pip remmina whois # commonly used packages
+apt install -y build-essential dcraw gimp inkscape libraw-bin python3-pip remmina whois # commonly used packages
 snap refresh
-snap install firefox
+snap install firefox freecad
 
 # CHANGE! set temp user while nfs does not work
 
