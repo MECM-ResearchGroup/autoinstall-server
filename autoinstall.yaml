@@ -86,11 +86,5 @@ autoinstall:
 
     # A postinstall script may optionally be used for further install
     # customization. Deploy this postinstall.sh script on the webserver.
-    - curtin in-target -- mkdir /postinstall
-    - wget -O /target/postinstall/postinstall.sh http://crio/postinstall.sh
-    - wget -O /target/postinstall/abaqus.sh http://crio/abaqus.sh
-    - wget -O /target/postinstall/ubuntu.recipe http://crio/ubuntu.recipe
-    - wget -O /target/postinstall/Abq6141_extrair_na_opt.tar.gz http://crio/Abq6141_extrair_na_opt.tar.gz
-    - wget -O /target/postinstall/network.lic http://crio/network.lic
-    - wget -O /target/postinstall/installer_input.txt http://crio/installer_input.txt
-    - wget -O /target/postinstall/MATLAB_R2019a_Linux_UFSCar.zip http://crio/MATLAB_R2019a_Linux_UFSCar.zip
+    - wget -O /target/postinstall.sh http://crio/postinstall.sh
+    - wget -O /target/postinstall.tar.zst http://crio/postinstall.tar.zst
