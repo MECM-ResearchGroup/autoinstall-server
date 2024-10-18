@@ -23,11 +23,11 @@ autoinstall:
   # 3. Prompt for user configuration on first boot.  Remove this identity
   #    section and see the "Installation without a default user" section.
   identity:
-    username: lsc-admin
+    username: lsc
     # A password hash is needed. `mkpasswd --method=SHA-512` can help.
     # mkpasswd can be found in the package 'whois'
     password: '$y$j9T$trg1Ty/3mV3xqlTaiK1D.1$mdfd8RiigBOP6whZ/L.qaqBHiWSTvN12B2ZvnMlF4M2'
-    hostname: tucano
+    hostname: tucano.lsc.dema.ufscar.br
 
   # Set the keyboard layout. The mapping’s keys correspond to settings in
   # the /etc/default/keyboard configuration file.
