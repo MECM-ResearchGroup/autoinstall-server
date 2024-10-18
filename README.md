@@ -13,7 +13,7 @@ Download the tarball containing Abaqus and MATLAB required files from Google Dri
 ## Installation
 **Some commands require root access, so always verify the scripts before running them.**
 
-Download or clone the repo and run `./setup_netboot.sh`. Set executing permission with `chmod +x setup_netboot.sh`, if needed.
+Download or clone the repo and run `./bootstrap.sh`. Set executing permission with `chmod +x bootstrap.sh`, if needed.
 It's also possible to change the IP of the server on `autoinstall.yaml` and `grub.cfg`, and the hostname of the target system.
 
 Then, move the tarball to /var/www/html:
