@@ -20,10 +20,6 @@ apt install -y build-essential dcraw gimp inkscape libraw-bin python3-pip remmin
 snap refresh
 snap install firefox freecad
 
-# CHANGE! set temp user while nfs does not work
-
-useradd -m -p '$y$j9T$P.TaB5iGpkoLlJcUABmHa1$6x/4ZiNbUwACEVHpirDS/7zs9M/lzHApr7ut/JmLiO9' -s /bin/bash lsc
-
 # Set custom locale definitions
 localectl set-locale LC_NUMERIC=pt_BR.UTF-8 \
       LC_TIME=pt_BR.UTF-8 LC_MONETARY=pt_BR.UTF-8 LC_PAPER=pt_BR.UTF-8 \
