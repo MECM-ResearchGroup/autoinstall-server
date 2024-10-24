@@ -75,6 +75,7 @@ chmod 770 -R ${CONDA_PATH}
 usermod -aG conda lsc
 eval "$(${CONDA_PATH}/bin/conda shell.bash hook)"
 conda init --system
+conda install -y -c conda-forge libstdcxx-ng
 echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
 rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
 
