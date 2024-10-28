@@ -52,6 +52,12 @@ autoinstall:
       's/GRUB_CMDLINE_LINUX_DEFAULT=".*/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/'
     - curtin in-target -- update-grub
 
+    # Let NetworkManager handle network
+    - >-
+      printf "network:\n  version: 2\n  renderer: NetworkManager\n"
+      > /target/etc/netplan/01-network-manager-all.yaml
+    - curtin in-target -- systemctl disable systemd-networkd-wait-online.service
+
     # Remove default filesystem and related tools not used with the suggested
     # 'direct' storage layout.  These may yet be required if different
     # partitioning schemes are used.
