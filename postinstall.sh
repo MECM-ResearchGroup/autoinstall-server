@@ -16,7 +16,7 @@ ip link set `ip --brief link | awk '$1 !~ "lo|vir|wl" { print $1}'` up
 sleep 10
 apt update  # To get the latest package lists
 apt upgrade -y
-apt install -y build-essential dcraw gimp inkscape libraw-bin python3-pip remmina ssh whois # commonly used packages
+apt install -y build-essential dcraw freeipa-client gimp inkscape libraw-bin python3-pip remmina ssh whois # commonly used packages
 snap refresh
 snap install firefox freecad
 
@@ -78,23 +78,6 @@ conda init --system
 conda install -y -c conda-forge libstdcxx-ng
 echo -e "\n${GREEN}Anaconda installed successfully!${LIGHTGREY}\n"
 rm ./Anaconda3-${VERSION}-Linux-x86_64.sh
-
-#### Setup AD and nfs ####
-#echo -e "\n${BLUE}Now setting up Active Directory and NFS${LIGHTGREY}\n"
-#apt install -y realmd adcli samba-common-bin libnss-sss libpam-sss sssd sssd-tools oddjob oddjob-mkhomedir packagekit nis nfs-common
-#realm discover lsc.dema.ufscar.br
-#realm join lsc.dema.ufscar.br
-#echo "crio:/home	/home	nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0" >> /etc/fstab
-#echo "domain lsc.dema.ufscar.br server crio.lsc.dema.ufscar.br" >> /etc/yp.conf
-#echo "lsc.dema.ufscar.br" > /etc/defaultdomain
-#echo "session optional        pam_mkhomedir.so skel=/etc/skel umask=077" >> /etc/pam.d/common-session
-#sed -i 's/# passwd:         files systemd/passwd:         files systemd nis sss/' /etc/nsswitch.conf
-#sed -i 's/# group:          files systemd/group:          files systemd nis sss/' /etc/nsswitch.conf
-#sed -i 's/# shadow:         files systemd/shadow:         files nis sss/' /etc/nsswitch.conf
-#sed -i 's/# hosts:          files dns/hosts:          files dns nis/' /etc/nsswitch.conf
-#systemctl restart rpcbind nscd ypbind
-#systemctl enable rpcbind nscd ypbind ypserv.service yppasswdd.service ypxfrd.service
-#echo -e "\n${GREEN}AD and NFS set up successfully!${LIGHTGREY}\n"
 
 echo -e "\n${GREEN}The script finished executing with no errors. Reboot to apply some remaining configurations.${LIGHTGREY}\n"
 rm -r ${POSTINSTALL_DIR} /postinstall.sh
